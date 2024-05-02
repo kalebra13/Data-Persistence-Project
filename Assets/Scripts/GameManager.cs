@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int bestScore;
-    public string name;
+    public string bestScoreName;    
     [SerializeField] TextMeshProUGUI bestScoreText;
     [SerializeField] TMP_InputField nameField;
 
@@ -44,33 +44,39 @@ public class GameManager : MonoBehaviour
         #endif
     }
 
+    class Score
+    {
+        public string name;
+        public int score;
+    }
+
     [System.Serializable]
     class SaveData
     {
         public int bestScore;
-        public string name;
+        public string bestScoreName;        
     }
 
     public void SaveScore()
     {
         SaveData data = new SaveData();
         data.bestScore = bestScore;
-        data.name = name;
+        data.bestScoreName = bestScoreName;
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
 
     public void LoadScore()
-    {
-        Debug.Log("path: " + Application.persistentDataPath);
+    {        
         string path = Application.persistentDataPath + "/savefile.json";
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             bestScore = data.bestScore;
-            name = data.name;            
-            bestScoreText.SetText(name + ": " + bestScore.ToString());
+            bestScoreName = data.bestScoreName;
+            
+            bestScoreText.SetText(bestScoreName + ": " + bestScore.ToString());
         }
     }
 }
