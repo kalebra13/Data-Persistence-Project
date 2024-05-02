@@ -42,13 +42,7 @@ public class GameManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
-    }
-
-    class Score
-    {
-        public string name;
-        public int score;
-    }
+    }    
 
     [System.Serializable]
     class SaveData
